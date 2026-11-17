@@ -4,9 +4,11 @@ import { RiThumbUpFill, RiThumbDownFill } from "@remixicon/react";
 
 const App = () => {
 
-  const [like, setLike] = useState(0)
-  const [dislike, setDislike] = useState(0)
-  const [color, setColor] = useState("255,255,255,1")
+  const [reaction, setReaction] = useState(null)
+  const initialLikes = 10
+  const initialDislikes=2
+  const likeCount = initialLikes + (reaction === 'like'? 1:0)
+  const dislikeCount = initialDislikes + (reaction === 'dislike'? 1:0)
 
   return (
     <div className='bg-black h-screen w-full p-10 text-white'>
@@ -21,16 +23,16 @@ const App = () => {
               <div className=' h-20 w-20 px-7 py-2'>
                 <button className='active:scale-90 w-full'
                 onClick={()=>{
-                  setLike(like=>like+1)
-                }}><RiThumbUpFill color="rgba(0,0,0,1)" /></button>
-                <h2 className='font-semibold text-center'>{like}</h2>
+                  setReaction(reaction => reaction === "like" ? null : "like")
+                }}><RiThumbUpFill className={`${reaction === "like" ? "text-blue-600" : "text-black"}`} /></button>
+                <h2 className='font-semibold text-center'>{likeCount}</h2>
               </div>
               <div className='h-20 w-20 px-7 py-2'>
                 <button className='active:scale-90 w-full'
                 onClick={()=>{
-                  setDislike(dislike=>dislike+1)
-                }}><RiThumbDownFill color="rgba(0,0,0,1)" /></button>
-                <h2 className='font-semibold text-center'>{dislike}</h2>
+                  setReaction(reaction => reaction === "dislike" ? null : "dislike")
+                }}><RiThumbDownFill className={`${reaction === "dislike" ? "text-red-600" : "text-black"}`} /></button>
+                <h2 className='font-semibold text-center'>{dislikeCount}</h2>
               </div>
             </div>
           </div>
