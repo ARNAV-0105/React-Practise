@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Filters = () => {
+const Filters = (props) => {
   return (
     <div>
-        <button className='h-15 w-40 rounded-lg bg-cyan-600'>All</button> 
+        <button className='h-15 w-40 rounded-lg bg-cyan-600 font-bold'>{props.filter}</button> 
     </div>
   )
 }
