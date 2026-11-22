@@ -11,7 +11,7 @@ const EmployeeCard = (props) => {
             <h2 className='font-bold '>{props.name}</h2>
             <h5 className='font-semibold text-sm'>{props.role}</h5>
             <h6 className='font-light text-xs'>{props.department}</h6>
-            <h6 className='font-light text-xs'>{props.experience}</h6>
+            <h6 className='font-light text-xs'>{props.experience} years of experience</h6>
           </div>
         </div>
     </div>

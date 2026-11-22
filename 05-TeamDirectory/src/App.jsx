@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import EmployeeCard from './components/EmployeeCard'
 import Filters from './components/Filters'
 import SearchBar from './components/SearchBar'
 
 const App = () => {
+
+  const [selectedDepartment, setSelectedDepartment] = useState("All")
+  const [search, setSearch] = useState("")
 
 const employees = [
   {
@@ -88,34 +91,61 @@ const employees = [
   }
 ]
 
+const filteredEmp = employees.filter((employee) => {
+  const matchesDept = 
+    selectedDepartment === 'All' || employee.department === selectedDepartment
+  const matchesSearch =
+    employee.name.toLowerCase().includes(search.toLowerCase())
+
+  return matchesDept && matchesSearch
+})
+
+const departments = [
+  "All",
+  "Engineering",
+  "Design",
+  "Marketing",
+  "Human Resources",
+  "Finance",
+  "UI/UX"
+]
 
   return (
     <div className='bg-blue-300 min-h-screen w-full p-10'>
       <div className='h-fit w-full flex justify-between'>
         <h1 className='font-bold text-3xl text-blue-950'>Team Directory</h1>
         {/* Searchbar Div */}
-        <SearchBar/>
+        <SearchBar search={search} onSearchChange={setSearch}/>
       </div>
       {/* Filter Div */}
       <div className='min-h-fit w-full mt-5 flex flex-wrap gap-5 text-white'>
-        <Filters filter="All"/>
-        <Filters filter="Engineering"/>
-        <Filters filter="Design"/>
-        <Filters filter="Marketing"/>
-        <Filters filter="Human Resources"/>
-        <Filters filter="Finance"/>
+          {departments.map((department) => (
+            <Filters
+            key={department}
+            filter={department}
+            selectedFilter={selectedDepartment}
+            onSelectFilter={setSelectedDepartment}
+          />
+          ))}
       </div>
       {/* Employee Div */}
       <div className='w-full min-h-90 mt-5 flex flex-wrap gap-5 text-white'>
-        {employees.map((employee) => (
-          <EmployeeCard 
-            key={employee.id} 
-            name={employee.name}
-            role={employee.role}
-            department={employee.department}
-            experience={employee.experience}
-            img={employee.avatar}/>
-        ))}
+        {filteredEmp.length > 0 ? (
+          filteredEmp.map((employee) => (
+            <EmployeeCard
+              key={employee.id}
+              name={employee.name}
+              role={employee.role}
+              department={employee.department}
+              experience={employee.experience}
+              img={employee.avatar}
+            />
+          ))
+        ) : (
+          <h2 className='text-blue-950 text-xl font-semibold'>
+            No employees found.
+          </h2>
+        )}
       </div>
     </div>
   )
